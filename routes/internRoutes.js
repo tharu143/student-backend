@@ -1,11 +1,24 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const internController = require("../controllers/internController");
+const Intern = require('../models/internModel');
 
-router.get("/search", internController.searchInterns);
-router.get("/", internController.getInterns);
-router.post("/", internController.createIntern);
-router.put("/:id", internController.updateIntern);
-router.delete("/:id", internController.deleteIntern);
+// Search interns by name
+router.get('/search', async (req, res) => {
+  const { name } = req.query;
+
+  if (!name) {
+    return res.status(400).json({ message: 'Name parameter is required' });
+  }
+
+  try {
+    const interns = await Intern.find({
+      name: new RegExp(name, 'i')
+    });
+    res.json(interns);
+  } catch (error) {
+    console.error('Error fetching interns:', error);
+    res.status(500).json({ message: 'Error fetching interns', error: error.message });
+  }
+});
 
 module.exports = router;
