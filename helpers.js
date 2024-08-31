@@ -1,5 +1,6 @@
 const Student = require("./models/studentModel");
 
+
 async function getNextStudentId() {
   try {
     const latestStudent = await Student.findOne({}, {}, { sort: { studentId: -1 } });
@@ -13,5 +14,6 @@ async function getNextStudentId() {
     throw error;
   }
 }
+
 
 module.exports = getNextStudentId;
