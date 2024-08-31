@@ -10,6 +10,7 @@ const chartRoutes = require('./routes/chartRoutes');
 const certificatesRoutes = require('./routes/certificatesRoutes');
 const staffRoutes = require('./routes/staffRoutes'); // Import staff routes
 const staffReportSheetRoutes = require('./routes/staffReportSheetRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 const PORT = 5000;
@@ -27,6 +28,7 @@ app.use('/api/attendance', attendanceRoutes);
 app.use('/api/interns', internRoutes);
 app.use('/api/report-sheets', reportSheetRoutes);
 app.use('/api/fees', feesRoutes);
+app.use('/api/auth', authRoutes); // Ensure this line is correct
 app.use('/api', chartRoutes);
 app.use('/api/certificates', certificatesRoutes);
 app.use('/api/staff', staffRoutes); // Add staff routes
