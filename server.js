@@ -9,6 +9,7 @@ const feesRoutes = require('./routes/feesRoutes');
 const chartRoutes = require('./routes/chartRoutes');
 const certificatesRoutes = require('./routes/certificatesRoutes');
 const staffRoutes = require('./routes/staffRoutes'); // Import staff routes
+const staffReportSheetRoutes = require('./routes/staffReportSheetRoutes');
 
 const app = express();
 const PORT = 5000;
@@ -29,6 +30,7 @@ app.use('/api/fees', feesRoutes);
 app.use('/api', chartRoutes);
 app.use('/api/certificates', certificatesRoutes);
 app.use('/api/staff', staffRoutes); // Add staff routes
+app.use('/api/report-sheets', staffReportSheetRoutes);
 
 // Connect to MongoDB
 mongoose
