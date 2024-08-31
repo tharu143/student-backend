@@ -2,7 +2,9 @@ const express = require('express');
 const router = express.Router();
 const staffController = require('../controllers/staffController');
 
-// Define route for creating staff
-router.post('/staff-details', staffController.createStaff);
+// Define routes
+router.post('/', staffController.createStaff);
+router.get('/searchById', staffController.searchStaffByEmployeeId);
+router.get('/search', staffController.searchStaffByName);
 
 module.exports = router;

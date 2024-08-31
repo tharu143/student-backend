@@ -1,7 +1,6 @@
 const multer = require('multer');
-const path = require('path');
-const Staff = require('../models/staffModel'); // Ensure this model is defined correctly
-const getNextStaffId = require('../helpers'); // Ensure this function is defined correctly
+const Staff = require('../models/staffModel');
+const getNextStaffId = require('../getNextStaffId');
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -24,13 +23,8 @@ exports.createStaff = [
     { name: 'passbook', maxCount: 1 },
   ]),
   async (req, res) => {
-    console.log('Files:', req.files); // Log files received
-    console.log('Body:', req.body);   // Log form data
-
     try {
-      const nextId = await getNextStaffId(); // Generate new staff ID
-      const employeeId = `zhahist${nextId.toString().padStart(3, '0')}`;
-
+      const employeeId = await getNextStaffId();
       const staff = new Staff({
         ...req.body,
         employeeId,
@@ -39,12 +33,35 @@ exports.createStaff = [
         passportPhotoPath: req.files['passportPhoto'] ? req.files['passportPhoto'][0].path : undefined,
         passbookPath: req.files['passbook'] ? req.files['passbook'][0].path : undefined,
       });
-
       await staff.save();
       res.status(201).json(staff);
     } catch (error) {
-      console.error('Error creating staff:', error.message);
+      console.error('Error creating staff:', error);
       res.status(500).json({ error: 'Failed to create staff' });
     }
   },
 ];
+
+// Search staff by name
+exports.searchStaffByName = async (req, res) => {
+  try {
+    const name = req.query.name;
+    const staff = await Staff.find({ name: new RegExp(name, 'i') });
+    res.json(staff);
+  } catch (error) {
+    console.error('Error searching staff by name:', error);
+    res.status(500).send('Server error');
+  }
+};
+
+// Search staff by employeeId
+exports.searchStaffByEmployeeId = async (req, res) => {
+  try {
+    const query = req.query.query || "";
+    const staff = await Staff.find({ employeeId: query });
+    res.status(200).json(staff);
+  } catch (error) {
+    console.error("Error searching staff by employeeId:", error);
+    res.status(500).json({ error: "Failed to search staff by employeeId" });
+  }
+};

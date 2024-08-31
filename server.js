@@ -9,6 +9,7 @@ const feesRoutes = require('./routes/feesRoutes');
 const chartRoutes = require('./routes/chartRoutes');
 const certificatesRoutes = require('./routes/certificatesRoutes');
 const staffRoutes = require('./routes/staffRoutes'); // Import staff routes
+const staffReportSheetRoutes = require('./routes/staffReportSheetRoutes');
 const authRoutes = require('./routes/authRoutes');
 
 const app = express();
@@ -31,6 +32,7 @@ app.use('/api/auth', authRoutes); // Ensure this line is correct
 app.use('/api', chartRoutes);
 app.use('/api/certificates', certificatesRoutes);
 app.use('/api/staff', staffRoutes); // Add staff routes
+app.use('/api/report-sheets', staffReportSheetRoutes);
 
 // Connect to MongoDB
 mongoose
